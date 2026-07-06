@@ -104,15 +104,30 @@ Lädt aus der Staging- in die dwh-Schicht: Delete-and-Load für `Dim_Household`,
 Live-Verbindung (kein Import) zum SSAS-Tabular-Modell, 6 Seiten:
 
 1. **Übersicht** – KPI-Kacheln (Gesamtverbrauch, Haushalte, Messungen, Ø Verbrauch) + report-weite Slicer (Datumsbereich, Tarif, Acorn-Gruppe)
+
+   ![Übersicht](screenshots/01_uebersicht.png)
+
 2. **Verbrauchstrend** – Zeitreihe des Gesamtverbrauchs über den kompletten Datenzeitraum
+
+   ![Verbrauchstrend](screenshots/02_verbrauchstrend.png)
+
 3. **Tarifvergleich** – Ø Verbrauch je Messung nach Tarifart (Std vs. ToU)
+
+   ![Tarifvergleich](screenshots/03_tarifvergleich.png)
+
 4. **Wetterbezug** – Verbrauch vs. Durchschnittstemperatur (Sekundärachse) – klassischer Heizeffekt sichtbar
+
+   ![Wetterbezug](screenshots/04_wetterbezug.png)
+
 5. **Acorn-Analyse** – Verbrauch nach sozioökonomischer Haushaltsgruppe
+
+   ![Acorn-Analyse](screenshots/05_acorn_analyse.png)
+
 6. **KI-Analyse** – Decomposition Tree (interaktive Aufschlüsselung nach Tarif, Acorn-Gruppe, Wochentag)
 
-> Hinweis: Power-BI-KI-Visuals wie *Key Influencers* und *Smart Narrative* werden bei Live-Verbindungen zu Analysis Services offiziell nicht unterstützt – bewusste Architekturentscheidung zugunsten einer einzigen, konsistenten Live-Datenquelle statt eines importierten Duplikats.
+   ![KI-Analyse](screenshots/06_ki_analyse.png)
 
-_(Screenshots der einzelnen Seiten: siehe `screenshots/`)_
+> Hinweis: Power-BI-KI-Visuals wie *Key Influencers* und *Smart Narrative* werden bei Live-Verbindungen zu Analysis Services offiziell nicht unterstützt – bewusste Architekturentscheidung zugunsten einer einzigen, konsistenten Live-Datenquelle statt eines importierten Duplikats.
 
 ## Automatisierung
 
@@ -149,7 +164,7 @@ smartmeter-classic-dwh-demo/
 4. SSIS-Projekt in Visual Studio öffnen, Verbindungs-Manager-Pfade auf lokale `data/`-Ablage prüfen, `01_Load_Staging.dtsx` und `02_Transform_Load.dtsx` einmalig manuell ausführen.
 5. SSAS-Tabular-Projekt öffnen, auf lokale Tabular-Instanz bereitstellen.
 6. `.pbix` öffnen, Live-Verbindung auf die eigene SSAS-Instanz umstellen.
-7. Optional: SQL-Server-Agent-Job für automatisierten nächtlichen Lauf einrichten (Skript/Anleitung siehe `sql/agent_job.sql`).
+7. Optional: SQL-Server-Agent-Job für automatisierten nächtlichen Lauf einrichten (Skript/Anleitung siehe `sql/02_agent_job.sql`).
 
 ## Technischer Hintergrund & Design-Entscheidungen
 
