@@ -8,13 +8,14 @@
      3. Ladeskripte der Kalender-/statischen Dimensionen
      4. Ladeskripte der datengetriebenen Dimensionen + Fact-Tabelle
 
-   Hinweis Teil 2: Die exakten CREATE-TABLE-Skripte (inkl. aller
-   Spaltenbreiten, die im Projektverlauf mehrfach angepasst wurden)
-   bitte direkt aus SSMS exportieren, damit sie 1:1 mit der
-   tatsächlich laufenden Datenbank übereinstimmen:
+   Hinweis Teil 2: Die CREATE-TABLE-Skripte sind eine Rekonstruktion
+   auf Basis der tatsächlich verwendeten Spalten in den Ladeskripten
+   (Abschnitt 3/4) sowie der Kaggle-Rohdatenstruktur. Vor
+   produktivem Einsatz bitte gegen die echte SSMS-Ausgabe prüfen:
    SSMS → Datenbank → Aufgaben → Skripts generieren →
-   stg- und dwh-Schema auswählen → "Nur Schema" → Datei speichern
-   und den Inhalt hier unter Abschnitt 2 einfügen.
+   stg- und dwh-Schema auswählen → "Nur Schema" → Datei speichern,
+   und bei Abweichungen (insb. Spaltenbreiten, die im Projektverlauf
+   mehrfach angepasst wurden) den Inhalt hier ersetzen.
    ============================================================ */
 
 -- ============================================================
@@ -34,12 +35,128 @@ GO
 -- ============================================================
 -- 2. Tabellen (stg- und dwh-Schema)
 -- ============================================================
--- >>> HIER: per SSMS "Skripts generieren" exportierte CREATE-TABLE-
--- >>> Anweisungen für alle stg.* und dwh.* Tabellen einfügen.
--- >>> (5 stg-Tabellen: HouseholdInfo, WeatherHourly, AcornDetails,
--- >>>  BankHolidays, HalfHourlyConsumption; 6 dwh-Tabellen:
--- >>>  Dim_Household, Dim_Date, Dim_Time, Dim_Weather, Dim_Tariff,
--- >>>  Fact_Consumption inkl. Foreign-Key-Constraints)
+
+-- ---------- stg-Schema: Staging-Tabellen (Rohimport, bewusst locker typisiert) ----------
+
+CREATE TABLE stg.HouseholdInfo (
+    HouseholdId     VARCHAR(20)     NULL,
+    TariffType      VARCHAR(10)     NULL,
+    Acorn           VARCHAR(20)     NULL,
+    AcornGrouped    VARCHAR(20)     NULL
+);
+GO
+
+CREATE TABLE stg.WeatherHourly (
+    ReadingTime             VARCHAR(50)     NULL,
+    Temperature             VARCHAR(20)     NULL,
+    ApparentTemperature     VARCHAR(20)     NULL,
+    Humidity                VARCHAR(20)     NULL,
+    WindSpeed               VARCHAR(20)     NULL,
+    PrecipType              VARCHAR(20)     NULL,
+    Summary                 VARCHAR(200)    NULL
+);
+GO
+
+-- Hinweis: Original-Kaggle-Datei "acorn_details.csv" enthält zusätzlich
+-- prozentuale Kennzahlen je Acorn-Gruppe, die im aktuellen Ladeskript
+-- (Abschnitt 3/4) nicht referenziert werden. Spaltenliste hier daher
+-- bewusst minimal gehalten und bei Bedarf aus SSMS-Export ergänzen.
+CREATE TABLE stg.AcornDetails (
+    AcornCategory       VARCHAR(20)     NULL,
+    AcornGroup          VARCHAR(20)     NULL,
+    ReferenceCategories VARCHAR(200)    NULL
+);
+GO
+
+CREATE TABLE stg.BankHolidays (
+    HolidayDate     DATE            NULL,
+    HolidayName     VARCHAR(100)    NULL
+);
+GO
+
+CREATE TABLE stg.HalfHourlyConsumption (
+    HouseholdId     VARCHAR(20)     NULL,
+    ReadingTime     VARCHAR(50)     NULL,
+    EnergyKWH       VARCHAR(20)     NULL
+);
+GO
+
+-- ---------- dwh-Schema: Star Schema ----------
+
+CREATE TABLE dwh.Dim_Tariff (
+    TariffKey       INT             NOT NULL PRIMARY KEY,
+    TariffType      VARCHAR(10)     NOT NULL
+);
+GO
+
+CREATE TABLE dwh.Dim_Time (
+    TimeKey         INT             NOT NULL PRIMARY KEY,
+    HalfHourSlot    VARCHAR(5)      NOT NULL,
+    HourNum         TINYINT         NOT NULL,
+    MinuteNum       TINYINT         NOT NULL,
+    DaySegment      VARCHAR(20)     NOT NULL
+);
+GO
+
+CREATE TABLE dwh.Dim_Date (
+    DateKey         INT             NOT NULL PRIMARY KEY,
+    FullDate        DATE            NOT NULL,
+    Year            SMALLINT        NOT NULL,
+    Quarter         TINYINT         NOT NULL,
+    Month           TINYINT         NOT NULL,
+    MonthName       VARCHAR(20)     NOT NULL,
+    Day             TINYINT         NOT NULL,
+    Weekday         TINYINT         NOT NULL,
+    WeekdayName     VARCHAR(20)     NOT NULL,
+    IsWeekend       BIT             NOT NULL,
+    IsHoliday       BIT             NOT NULL,
+    HolidayName     VARCHAR(100)    NULL
+);
+GO
+
+CREATE TABLE dwh.Dim_Household (
+    HouseholdKey    INT IDENTITY(1,1)  NOT NULL PRIMARY KEY,
+    HouseholdId     VARCHAR(20)        NOT NULL,
+    TariffType      VARCHAR(10)        NULL,
+    Acorn           VARCHAR(20)        NULL,
+    AcornGrouped    VARCHAR(20)        NULL
+);
+GO
+
+CREATE TABLE dwh.Dim_Weather (
+    WeatherKey              INT IDENTITY(1,1)  NOT NULL PRIMARY KEY,
+    WeatherDateTime         DATETIME2(0)       NOT NULL,
+    Temperature             DECIMAL(5,2)       NULL,
+    ApparentTemperature     DECIMAL(5,2)       NULL,
+    Humidity                DECIMAL(5,2)       NULL,
+    WindSpeed               DECIMAL(5,2)       NULL,
+    PrecipType              VARCHAR(20)        NULL,
+    Summary                 VARCHAR(200)       NULL
+);
+GO
+
+CREATE TABLE dwh.Fact_Consumption (
+    FactKey         BIGINT IDENTITY(1,1)   NOT NULL PRIMARY KEY,
+    HouseholdKey    INT                    NOT NULL,
+    DateKey         INT                    NOT NULL,
+    TimeKey         INT                    NOT NULL,
+    WeatherKey      INT                    NULL,
+    TariffKey       INT                    NOT NULL,
+    EnergyKWH       DECIMAL(10,4)          NULL,
+    CONSTRAINT FK_Fact_Household FOREIGN KEY (HouseholdKey) REFERENCES dwh.Dim_Household (HouseholdKey),
+    CONSTRAINT FK_Fact_Date      FOREIGN KEY (DateKey)      REFERENCES dwh.Dim_Date (DateKey),
+    CONSTRAINT FK_Fact_Time      FOREIGN KEY (TimeKey)      REFERENCES dwh.Dim_Time (TimeKey),
+    CONSTRAINT FK_Fact_Weather   FOREIGN KEY (WeatherKey)   REFERENCES dwh.Dim_Weather (WeatherKey),
+    CONSTRAINT FK_Fact_Tariff    FOREIGN KEY (TariffKey)    REFERENCES dwh.Dim_Tariff (TariffKey)
+);
+GO
+
+-- Unterstützende Indizes auf den FK-Spalten der Fact-Tabelle
+-- (Fremdschlüssel werden in SQL Server nicht automatisch indiziert)
+CREATE NONCLUSTERED INDEX IX_Fact_Household ON dwh.Fact_Consumption (HouseholdKey);
+CREATE NONCLUSTERED INDEX IX_Fact_Date      ON dwh.Fact_Consumption (DateKey);
+CREATE NONCLUSTERED INDEX IX_Fact_Weather   ON dwh.Fact_Consumption (WeatherKey);
+GO
 
 -- ============================================================
 -- 3. Kalender-/statische Dimensionen laden (einmalig)
