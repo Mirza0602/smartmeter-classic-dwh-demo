@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37411.7 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{C9674DCB-5085-4A16-B785-4C70DD1589BD}") = "SmartMeterDemoDWH_ETL", "SmartMeterDemoDWH_ETL.dtproj", "{24B26F92-A529-D4D6-B798-8963740A3BB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24B26F92-A529-D4D6-B798-8963740A3BB3}.Development|Default.ActiveCfg = Development
+		{24B26F92-A529-D4D6-B798-8963740A3BB3}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1D21EE3-594E-4164-BEB0-0A86A407EF5B}
+	EndGlobalSection
+EndGlobal

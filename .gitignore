@@ -1,0 +1,13 @@
+# Rohdaten (zu groß fürs Repo, nicht deine IP)
+data/
+
+# Visual Studio / SSIS / SSAS Build-Artefakte
+bin/
+obj/
+.vs/
+*.suo
+*.user
+
+# Windows
+Thumbs.db
+Desktop.ini

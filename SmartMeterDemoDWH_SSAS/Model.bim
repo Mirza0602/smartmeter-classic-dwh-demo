@@ -1,0 +1,509 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1200,
+  "model": {
+    "culture": "de-DE",
+    "dataSources": [
+      {
+        "name": "SqlServer CYBERPOWER SmartMeterDemoDWH",
+        "connectionString": "Provider=SQLOLEDB;Data Source=CYBERPOWER;Initial Catalog=SmartMeterDemoDWH;Integrated Security=SSPI;Persist Security Info=false",
+        "impersonationMode": "impersonateServiceAccount",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "SqlServer"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "Dim_Date",
+        "dataCategory": "Time",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FullDate",
+            "dataType": "dateTime",
+            "isKey": true,
+            "sourceColumn": "FullDate",
+            "formatString": "General Date",
+            "sortByColumn": "DateKey",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "Quarter",
+            "dataType": "int64",
+            "sourceColumn": "Quarter",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "sourceColumn": "Month",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "Day",
+            "dataType": "int64",
+            "sourceColumn": "Day",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "Weekday",
+            "dataType": "int64",
+            "sourceColumn": "Weekday",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "WeekdayName",
+            "dataType": "string",
+            "sourceColumn": "WeekdayName",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "IsWeekend",
+            "dataType": "boolean",
+            "sourceColumn": "IsWeekend",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "Boolean"
+          },
+          {
+            "name": "IsHoliday",
+            "dataType": "boolean",
+            "sourceColumn": "IsHoliday",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "Boolean"
+          },
+          {
+            "name": "HolidayName",
+            "dataType": "string",
+            "sourceColumn": "HolidayName",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Date",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [dwh].[Dim_Date].*   FROM [dwh].[Dim_Date] ",
+              "dataSource": "SqlServer CYBERPOWER SmartMeterDemoDWH"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dwh].[Dim_Date].*   FROM [dwh].[Dim_Date] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Dim_Date"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dwh"
+          }
+        ]
+      },
+      {
+        "name": "Dim_Household",
+        "columns": [
+          {
+            "name": "HouseholdKey",
+            "dataType": "int64",
+            "sourceColumn": "HouseholdKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "HouseholdId",
+            "dataType": "string",
+            "sourceColumn": "HouseholdId",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "TariffType",
+            "dataType": "string",
+            "sourceColumn": "TariffType",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "Acorn",
+            "dataType": "string",
+            "sourceColumn": "Acorn",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "AcornGrouped",
+            "dataType": "string",
+            "sourceColumn": "AcornGrouped",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Household",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [dwh].[Dim_Household].*   FROM [dwh].[Dim_Household] ",
+              "dataSource": "SqlServer CYBERPOWER SmartMeterDemoDWH"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dwh].[Dim_Household].*   FROM [dwh].[Dim_Household] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Dim_Household"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dwh"
+          }
+        ]
+      },
+      {
+        "name": "Dim_Tariff",
+        "columns": [
+          {
+            "name": "TariffKey",
+            "dataType": "int64",
+            "sourceColumn": "TariffKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "TariffType",
+            "dataType": "string",
+            "sourceColumn": "TariffType",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Tariff",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [dwh].[Dim_Tariff].*   FROM [dwh].[Dim_Tariff] ",
+              "dataSource": "SqlServer CYBERPOWER SmartMeterDemoDWH"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dwh].[Dim_Tariff].*   FROM [dwh].[Dim_Tariff] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Dim_Tariff"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dwh"
+          }
+        ]
+      },
+      {
+        "name": "Dim_Time",
+        "columns": [
+          {
+            "name": "TimeKey",
+            "dataType": "int64",
+            "sourceColumn": "TimeKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "HalfHourSlot",
+            "dataType": "string",
+            "sourceColumn": "HalfHourSlot",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "HourNum",
+            "dataType": "int64",
+            "sourceColumn": "HourNum",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "MinuteNum",
+            "dataType": "int64",
+            "sourceColumn": "MinuteNum",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "DaySegment",
+            "dataType": "string",
+            "sourceColumn": "DaySegment",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Time",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [dwh].[Dim_Time].*   FROM [dwh].[Dim_Time] ",
+              "dataSource": "SqlServer CYBERPOWER SmartMeterDemoDWH"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dwh].[Dim_Time].*   FROM [dwh].[Dim_Time] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Dim_Time"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dwh"
+          }
+        ]
+      },
+      {
+        "name": "Dim_Weather",
+        "columns": [
+          {
+            "name": "WeatherKey",
+            "dataType": "int64",
+            "sourceColumn": "WeatherKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WeatherDateTime",
+            "dataType": "string",
+            "sourceColumn": "WeatherDateTime",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "Temperature",
+            "dataType": "double",
+            "sourceColumn": "Temperature",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "ApparentTemperature",
+            "dataType": "double",
+            "sourceColumn": "ApparentTemperature",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "Humidity",
+            "dataType": "double",
+            "sourceColumn": "Humidity",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "WindSpeed",
+            "dataType": "double",
+            "sourceColumn": "WindSpeed",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "PrecipType",
+            "dataType": "string",
+            "sourceColumn": "PrecipType",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "Summary",
+            "dataType": "string",
+            "sourceColumn": "Summary",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Weather",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [dwh].[Dim_Weather].*   FROM [dwh].[Dim_Weather] ",
+              "dataSource": "SqlServer CYBERPOWER SmartMeterDemoDWH"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Durchschnittstemperatur",
+            "expression": " AVERAGEX(Fact_Consumption, RELATED(Dim_Weather[Temperature]))",
+            "formatString": "0.00"
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dwh].[Dim_Weather].*   FROM [dwh].[Dim_Weather] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Dim_Weather"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dwh"
+          }
+        ]
+      },
+      {
+        "name": "Fact_Consumption",
+        "columns": [
+          {
+            "name": "HouseholdKey",
+            "dataType": "int64",
+            "sourceColumn": "HouseholdKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "TimeKey",
+            "dataType": "int64",
+            "sourceColumn": "TimeKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WeatherKey",
+            "dataType": "int64",
+            "sourceColumn": "WeatherKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "TariffKey",
+            "dataType": "int64",
+            "sourceColumn": "TariffKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "EnergyKWH",
+            "dataType": "double",
+            "sourceColumn": "EnergyKWH",
+            "sourceProviderType": "Numeric"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Fact_Consumption",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [dwh].[Fact_Consumption].*   FROM [dwh].[Fact_Consumption] ",
+              "dataSource": "SqlServer CYBERPOWER SmartMeterDemoDWH"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Gesamtverbrauch kWh",
+            "expression": " SUM(Fact_Consumption[EnergyKWH])\t",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Anzahl Messungen",
+            "expression": " COUNTROWS(Fact_Consumption)",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Durchschnittsverbrauch je Messung",
+            "expression": " DIVIDE([Gesamtverbrauch kWh], [Anzahl Messungen])",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Anzahl Haushalte",
+            "expression": " DISTINCTCOUNT(Fact_Consumption[HouseholdKey])",
+            "formatString": "#,0"
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [dwh].[Fact_Consumption].*   FROM [dwh].[Fact_Consumption] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Fact_Consumption"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dwh"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "4fb1b408-b09a-4ac1-9205-6b4c5eea133b",
+        "fromTable": "Fact_Consumption",
+        "fromColumn": "DateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "b3ea942e-1495-462a-b874-f79f31cae0ca",
+        "fromTable": "Fact_Consumption",
+        "fromColumn": "HouseholdKey",
+        "toTable": "Dim_Household",
+        "toColumn": "HouseholdKey"
+      },
+      {
+        "name": "8f415e4b-1c85-453a-9ab1-0b7d4647e0a8",
+        "fromTable": "Fact_Consumption",
+        "fromColumn": "TariffKey",
+        "toTable": "Dim_Tariff",
+        "toColumn": "TariffKey"
+      },
+      {
+        "name": "0f13b59b-83b2-4563-8653-bc8d8613608f",
+        "fromTable": "Fact_Consumption",
+        "fromColumn": "TimeKey",
+        "toTable": "Dim_Time",
+        "toColumn": "TimeKey"
+      },
+      {
+        "name": "829a0ff5-84cf-4dca-a85f-185722f30dcc",
+        "fromTable": "Fact_Consumption",
+        "fromColumn": "WeatherKey",
+        "toTable": "Dim_Weather",
+        "toColumn": "WeatherKey"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "400"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}

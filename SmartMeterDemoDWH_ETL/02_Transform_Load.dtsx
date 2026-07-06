@@ -1,0 +1,407 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/4/2026 1:35:58 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CYBERPOWER"
+  DTS:CreatorName="CYBERPOWER\mirza"
+  DTS:DTSID="{A71A0273-DA87-4E5E-8CA8-E3F802E9A26C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="1031"
+  DTS:ObjectName="02_Transform_Load"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{C12007B4-D1D1-4095-A84C-4B9C758D2CAF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CM_SmartMeterDemoDWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+      DTS:ObjectName="CM_SmartMeterDemoDWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;User ID=;Initial Catalog=SmartMeterDemoDWH;Provider=MSOLEDBSQL19.1;Persist Security Info=False;Integrated Security=SSPI;Initial File Name=;Trust Server Certificate=True;Server SPN=;Authentication=;Access Token=;Host Name In Certificate=;Server Certificate=;Application Name=SSIS-01_Load_Staging-{E579655A-9ADD-417E-9523-C4BC5981B1F3}LocalHost.SmartMeterDemoDWH;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Dim_Household"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{a586ed79-dab6-4a35-b891-779b2fe896b4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Dim_Household"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+          SQLTask:SqlStatementSource="DELETE FROM dwh.Dim_Household;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Dim_Weather"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{670b573a-b847-4af8-b8f0-02d069a760e9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Dim_Weather"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+          SQLTask:SqlStatementSource="DELETE FROM dwh.Dim_Weather;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Delete Fact_Consumption"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{C00FDC83-D81B-4E0C-8656-AE95F35D5E4E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Delete Fact_Consumption"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE dwh.Fact_Consumption;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Dim_Household"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{7f26c1d1-7b15-4804-843d-b1eaf3ea5be2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Dim_Household"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+          SQLTask:SqlStatementSource="INSERT INTO dwh.Dim_Household (HouseholdId, TariffType, Acorn, AcornGrouped)&#xA;SELECT DISTINCT HouseholdId, TariffType, Acorn, AcornGrouped&#xA;FROM stg.HouseholdInfo;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Dim_Weather"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{c9d0a28a-5d0b-49ac-a37e-cf7c61c04559}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Dim_Weather"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+          SQLTask:SqlStatementSource="INSERT INTO dwh.Dim_Weather (WeatherDateTime, Temperature, ApparentTemperature, Humidity, WindSpeed, PrecipType, Summary)&#xA;SELECT &#xA;    TRY_CAST(ReadingTime AS DATETIME2),&#xA;    TRY_CAST(Temperature AS DECIMAL(5,2)),&#xA;    TRY_CAST(ApparentTemperature AS DECIMAL(5,2)),&#xA;    TRY_CAST(Humidity AS DECIMAL(5,2)),&#xA;    TRY_CAST(WindSpeed AS DECIMAL(5,2)),&#xA;    PrecipType,&#xA;    Summary&#xA;FROM stg.WeatherHourly;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SQL - Load Fact_Consumption"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{3a071299-7dcb-4d01-8239-70395c74f01a}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL - Load Fact_Consumption"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E579655A-9ADD-417E-9523-C4BC5981B1F3}"
+          SQLTask:SqlStatementSource="INSERT INTO dwh.Fact_Consumption (HouseholdKey, DateKey, TimeKey, WeatherKey, TariffKey, EnergyKWH)&#xA;SELECT&#xA;    dh.HouseholdKey,&#xA;    CONVERT(INT, FORMAT(rt.ReadingDateTime, 'yyyyMMdd')),&#xA;    (DATEPART(HOUR, rt.ReadingDateTime) * 2) + (DATEPART(MINUTE, rt.ReadingDateTime) / 30),&#xA;    dw.WeatherKey,&#xA;    dt.TariffKey,&#xA;    CASE WHEN LTRIM(RTRIM(hc.EnergyKWH)) = 'Null' THEN NULL ELSE TRY_CAST(hc.EnergyKWH AS DECIMAL(10,4)) END&#xA;FROM stg.HalfHourlyConsumption hc&#xA;CROSS APPLY (SELECT TRY_CAST(hc.ReadingTime AS DATETIME2) AS ReadingDateTime) rt&#xA;INNER JOIN dwh.Dim_Household dh ON dh.HouseholdId = hc.HouseholdId&#xA;LEFT JOIN dwh.Dim_Weather dw ON dw.WeatherDateTime = DATEADD(SECOND, -DATEPART(SECOND, rt.ReadingDateTime), DATEADD(MINUTE, -DATEPART(MINUTE, rt.ReadingDateTime), rt.ReadingDateTime))&#xA;INNER JOIN dwh.Dim_Tariff dt ON dt.TariffType = dh.TariffType&#xA;WHERE rt.ReadingDateTime IS NOT NULL;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Einschränkung]"
+      DTS:CreationName=""
+      DTS:DTSID="{FCD3F412-BEA2-4592-8D4A-7C8D1028CBFA}"
+      DTS:From="Package\SQL - Delete Fact_Consumption"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Einschränkung"
+      DTS:To="Package\SQL - Delete Dim_Household" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Einschränkung 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{EC552118-A678-45AD-BEF5-0C2E99B4C629}"
+      DTS:From="Package\SQL - Delete Fact_Consumption"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Einschränkung 1"
+      DTS:To="Package\SQL - Delete Dim_Weather" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Einschränkung 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{CAA22440-2884-4CDE-9E97-DAA2F46B75C4}"
+      DTS:From="Package\SQL - Delete Dim_Household"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Einschränkung 2"
+      DTS:To="Package\SQL - Load Dim_Household" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Einschränkung 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{6943D961-6372-44EB-9823-516B8163B665}"
+      DTS:From="Package\SQL - Delete Dim_Weather"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Einschränkung 3"
+      DTS:To="Package\SQL - Load Dim_Weather" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Einschränkung 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{B26D65FC-40B0-491B-9FF1-39E9E91E5BEF}"
+      DTS:From="Package\SQL - Load Dim_Household"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Einschränkung 4"
+      DTS:To="Package\SQL - Load Fact_Consumption" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Einschränkung 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{677C6D4D-23B7-43F3-883F-78D7C602AC08}"
+      DTS:From="Package\SQL - Load Dim_Weather"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Einschränkung 5"
+      DTS:To="Package\SQL - Load Fact_Consumption" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Dieser CDATA-Abschnitt enthält die Layoutinformationen des Pakets, z.B. Informationen wie X-/Y-Koordinaten, Breite und Höhe.-->
+<!--Wenn Sie diesen Abschnitt manuell ändern und Ihnen ein Fehler unterläuft, können Sie ihn löschen. -->
+<!--Das Paket kann zwar weiterhin normal geladen werden, aber frühere Layoutinformationen gehen verloren, und die Elemente auf der Entwurfsoberfläche werden vom Designer automatisch neu angeordnet.-->
+<Objects
+  Version="8">
+  <!--Jeder darunter liegende Knoten enthält Eigenschaften, die sich nicht auf das Laufzeitverhalten auswirken.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="228,41.6"
+          Id="Package\SQL - Delete Fact_Consumption"
+          TopLeft="103.571428791905,29.0588235039407" />
+        <NodeLayout
+          Size="215.2,41.6"
+          Id="Package\SQL - Delete Dim_Household"
+          TopLeft="13.5714286003186,175.776470523217" />
+        <NodeLayout
+          Size="205.6,41.6"
+          Id="Package\SQL - Delete Dim_Weather"
+          TopLeft="247.142857668959,173.376470614377" />
+        <NodeLayout
+          Size="207.2,41.6"
+          Id="Package\SQL - Load Dim_Household"
+          TopLeft="20.0000000425747,283.388235312886" />
+        <NodeLayout
+          Size="197.6,41.6"
+          Id="Package\SQL - Load Dim_Weather"
+          TopLeft="257.857143406053,288.741176484664" />
+        <NodeLayout
+          Size="220.8,41.6"
+          Id="Package\SQL - Load Fact_Consumption"
+          TopLeft="121.428571687061,434.79999988605" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Einschränkung]"
+          TopLeft="180.904762125238,70.6588235039407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-59.7333335249196,105.117647019276"
+              Start="0,0"
+              End="-59.7333335249196,97.617647019276">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.4865751018676" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38.4865751018676"
+                    Point2="0,42.4865751018676"
+                    Point3="-4,42.4865751018676" />
+                  <mssgle:LineSegment
+                    End="-55.7333335249196,42.4865751018676" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-55.7333335249196,42.4865751018676"
+                    Point2="-59.7333335249196,42.4865751018676"
+                    Point3="-59.7333335249196,46.4865751018676" />
+                  <mssgle:LineSegment
+                    End="-59.7333335249196,97.617647019276" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Einschränkung 1]"
+          TopLeft="254.238095458572,70.6588235039407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="95.7047622103878,102.717647110436"
+              Start="0,0"
+              End="95.7047622103878,95.217647110436">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5165402955072" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.5165402955072"
+                    Point2="0,41.5165402955072"
+                    Point3="4,41.5165402955072" />
+                  <mssgle:LineSegment
+                    End="91.7047622103878,41.5165402955072" />
+                  <mssgle:CubicBezierSegment
+                    Point1="91.7047622103878,41.5165402955072"
+                    Point2="95.7047622103878,41.5165402955072"
+                    Point3="95.7047622103878,45.5165402955072" />
+                  <mssgle:LineSegment
+                    End="95.7047622103878,95.217647110436" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Einschränkung 2]"
+          TopLeft="122.385714321447,217.376470523217">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,66.0117647896692"
+              Start="0,0"
+              End="0,58.5117647896692">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.5117647896692" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Einschränkung 3]"
+          TopLeft="353.300000537506,214.976470614377">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,73.7647058702876"
+              Start="0,0"
+              End="0,66.2647058702876">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.2647058702876" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Einschränkung 4]"
+          TopLeft="123.600000042575,324.988235312886">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="72.7619049778196,109.811764573164"
+              Start="0,0"
+              End="72.7619049778196,102.311764573164">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.4130511270359" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,61.4130511270359"
+                    Point2="0,65.4130511270359"
+                    Point3="4,65.4130511270359" />
+                  <mssgle:LineSegment
+                    End="68.7619049778196,65.4130511270359" />
+                  <mssgle:CubicBezierSegment
+                    Point1="68.7619049778196,65.4130511270359"
+                    Point2="72.7619049778196,65.4130511270359"
+                    Point3="72.7619049778196,69.4130511270359" />
+                  <mssgle:LineSegment
+                    End="72.7619049778196,102.311764573164" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Einschränkung 5]"
+          TopLeft="356.657143406053,330.341176484664">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-89.361905052325,104.458823401386"
+              Start="0,0"
+              End="-89.361905052325,96.9588234013856">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.2243926448542" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,58.2243926448542"
+                    Point2="0,62.2243926448542"
+                    Point3="-4,62.2243926448542" />
+                  <mssgle:LineSegment
+                    End="-85.361905052325,62.2243926448542" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-85.361905052325,62.2243926448542"
+                    Point2="-89.361905052325,62.2243926448542"
+                    Point3="-89.361905052325,66.2243926448542" />
+                  <mssgle:LineSegment
+                    End="-89.361905052325,96.9588234013856" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
